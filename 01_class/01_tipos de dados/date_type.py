@@ -62,3 +62,51 @@ idade = input("informe sua idade: ")
 print(nome, idade)
 print(nome, idade, end=". . . \n")
 print(nome, idade, sep=" * ")
+
+# --------- OPERADORES ARITIMETICOS  ----------- #
+print("# --------- OPERADORES ARITIMETICOS  ----------- #")
+
+#operadores
+
+#operadores de comparação
+
+#Operadores de Atribuição
+
+#Operadores Lógicos
+
+#Operadores de Indentidade
+
+#Operadores de associação
+
+
+
+
+# --------- Estruturas Condicionais e de Repetição  ----------- #
+print("# --------- Estruturas Condicionais e de Repetição  ----------- #")
+
+#Estruturas Condicionais
+
+#Estrutura de Repetição
+  
+
+
+# --------- Estruturas Condicionais e de Repetição  ----------- #
+print("# --------- Estruturas Condicionais e de Repetição  ----------- #")  
+
+
+
+# --------- Manipulação de String com Python ----------- #
+print("# --------- Manipulação de String com Python  ----------- #")  
+
+
+# Metodos da classe String
+
+# Interpolação de Variaveis
+
+
+# Fatiamento de String
+
+
+# String múltiplas linhas
+
+
