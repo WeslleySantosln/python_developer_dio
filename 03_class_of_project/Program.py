@@ -43,7 +43,7 @@ def deposito(valor):
         else:
             saldo += valor
             extrato.append(f"Deposito realizado no valor de R$ {valor:.2f}. {periodo()} ")  
-            print(f"Saldo: {saldo:.2f}")  
+            print(f"Deposito efetuado com sucesso. Seu saldo: R$ {saldo:.2f}")  
               
     except ValueError:
         valor = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
@@ -62,16 +62,16 @@ def saque(valor):
     if num_saque == 3:
         return print("Numero de saque excedido")
     elif valor > 500 :
-        return print(f"Limite maximo para saque: R$ 500,00. Valor inserido: {valor}")
+        return print(f"Limite maximo para saque: R$ 500,00. Valor inserido: R$ {valor:.2f}")
     elif valor > saldo :
-        return print(f"Valor para saque maior que o saldo da conta. Saldo da conta: {saldo}, Valor de saque{valor}.")
+        return print(f"Valor para saque maior que o saldo da conta. Saldo da conta: R$ {saldo:.2f}, Valor de saque: R$ {valor:.2f}.")
     elif valor < 0 :
         return print("Porfavor coloque um numero posito!")
     else:
         saldo -= valor
         num_saque=+ 1
         extrato.append(f"Saque realizado no valor de R$ {valor:.2f}. {periodo()} ")
-        return print(f"Seu saldo é: R$ {saldo:.2f}")
+        return print(f"Saque efetuado no valor de R$ {valor:.2f}. Seu saldo é: R$ {saldo:.2f}")
 
 
 #Extrato - listar todos os depositos e saques da conta - exibir no final o saldo da conta - valores deve ser exibido no seguinte formato(R$ 1.500,00)
@@ -81,7 +81,7 @@ def funcao_extrato():
 
     for extr in extrato:
         print(f"{extr}") 
-    print(f"Saldo bancario: {saldo:.2f}")
+    print(f"Saldo em conta: {saldo:.2f}")
 
 
 
