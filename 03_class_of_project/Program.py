@@ -2,7 +2,10 @@ from datetime import datetime
 
 saldo = 100
 extrato = []
-num_saque = 0
+num_saque = []
+usuarios = {}
+usuarios = {}
+
 
 
 
@@ -14,6 +17,7 @@ menu = """
     [S] = SAQUE
     [D] = DEPOSITO
     [E] = EXTRATO
+    [C] = CADASTRAR USUÁRIO
     [Q] = SAIR
 
 ------ BANCO GT ------
@@ -56,8 +60,9 @@ def deposito(valor):
 
 #saque - só pode no maximo 3 por dia - limite de 500 por saque - usuario com saldo negativo deve ser informado - todos os saques deve ser exibidos em extrato
 #Refator o codigo para a função saque receber os seguintes argumentos POR NOME: saldo, valor, extrato, limite, numero_saques, limite_saques
-def saque(valor="none",num_saque="none",saldo=saldo,extrato="none"):
-    
+#Testar o valor do saque(global)
+def saque(valor="none",num_saque="none",extrato="none"):
+    global saldo
 
     if num_saque == 3:
         return print("Numero de saque excedido")
@@ -77,6 +82,7 @@ def saque(valor="none",num_saque="none",saldo=saldo,extrato="none"):
 #Extrato - listar todos os depositos e saques da conta - exibir no final o saldo da conta - valores deve ser exibido no seguinte formato(R$ 1.500,00)
    #Deve receber os argumentos por posição e por nome, Posicional: saldo - Nomeados: extrato  
 def funcao_extrato(extrato,/,saldo):
+    
     for extr in extrato:
         print(f"{extr}") 
     print(f"Saldo em conta: {saldo:.2f}")
@@ -103,8 +109,13 @@ def periodo():
 # O endereço é uma string com o formato: logradouro, nro - bairro - cidade/sigla estado. Deve ser armazenado somente os números do CPF.
 # Não podemos cadastrar 2 usuários com o mesmo CPF.
 
-
-
+def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user):
+    global usuarios
+    if cpf in user:
+        print("Usuario já cadastrado")
+    else:
+        usuarios[cpf] = {nome,data_nascimento,endereco, cpf}         
+        print(f"Usuario: {usuarios[cpf]} Cadastrado com sucesso. ")
 
 
 
@@ -115,9 +126,10 @@ def periodo():
 # O programa deve armazenar contas em uma lista, uma conta é composta por: agência, número da conta e usuário. O número da conta é sequencial, iniciando em 1. 
 # O número da agência é fixo: 0001.
 # O usuário pode ter mais de uma conta, mas uma conta pertence a somente um usuário.
-
-
 # Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número do CPF informado para cada usuário da lista.
+
+def criar_corrente(num_conta,user):
+    
 
 
 
@@ -142,7 +154,7 @@ def main():
                                     print("Volte sempre!")
                                     break
                                 continue
-                            saque(valor=valor,num_saque=num_saque,saldo=saldo,extrato=extrato)
+                            saque(valor=valor,num_saque=num_saque,extrato=extrato)
                             break
                         except ValueError:
                             vl_saque = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
@@ -159,6 +171,14 @@ def main():
             elif escolha.upper() == "E" :
                 funcao_extrato(extrato, saldo=saldo)
                 break
+            elif escolha.upper() == "C" :
+                print("Digite os dados do usuario: (nome,data_nascimento, cpf, endereco,user)")
+                nome = input("Nome: ")
+                data_nascimento = input("data_nascimento: ")
+                cpf = input("cpf: ")
+                endereco = input("endereco: ")
+                cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios)
+
             
             elif escolha.upper() == "Q" :
                 break
