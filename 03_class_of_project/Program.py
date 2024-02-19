@@ -1,10 +1,12 @@
 from datetime import datetime
 
+num_conta = 0
 saldo = 100
 extrato = []
 num_saque = []
 usuarios = {}
-usuarios = {}
+contas_corrente = {}
+
 
 
 
@@ -128,14 +130,16 @@ def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user):
 # O usuário pode ter mais de uma conta, mas uma conta pertence a somente um usuário.
 # Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número do CPF informado para cada usuário da lista.
 
-def criar_corrente(num_conta,user):
-    
-
+def criar_corrente(user,cpf):
+    global contas_corrente, num_conta
+    num_conta += 1
+    contas_corrente[cpf] = {num_conta,user,cpf}
 
 
 
 #loop Menu
 def main():
+
     while True:
         
         escolha = input(menu)
@@ -186,7 +190,7 @@ def main():
             vl_saque = input("Por favor, insira um parâmetro válido ou [Q] para sair.")          
             if vl_saque.upper() == "Q":
                 break      
-
+               
 
 main()
 
