@@ -5,8 +5,8 @@ agencia = "AG: 0001"
 saldo = 100
 extrato = []
 num_saque = []
-usuarios = {}
-contas_corrente = {}
+usuarios = []
+contas_corrente = []
 
 
 
@@ -20,7 +20,8 @@ menu = """
     [E] = EXTRATO
     [T] = CRIAR CONTA CORRENTE
     [Q] = SAIR
-    
+    [C] = CADASTRAR USUARIOS
+    [L] = LISTAR CONTAS
 
 ------ BANCO GT ------
 
@@ -120,8 +121,9 @@ def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user,agencia):
     if cpf in user:
         print("Usuario já cadastrado")
     else:
-        usuarios[cpf] = {nome,data_nascimento,endereco, cpf}         
-        print(f"Usuario: {usuarios[cpf]} Cadastrado com sucesso. ")
+        user  = [f"{cpf}, Nome: {nome}, Data Nascimento:{data_nascimento}, Endereço:{endereco},{agencia}"]
+        usuarios.append(user)         
+        print(f"Usuario: {user} Cadastrado com sucesso. ")
         criar_corrente(cpf,agencia)
 
 
@@ -144,9 +146,19 @@ def criar_corrente(cpf,agencia):
         if x.upper() == "S":
             num_conta += 1
             contas_corrente[cpf] = {agencia,num_conta,cpf}    
-    else:
+    elif cpf in usuarios:
         num_conta += 1
         contas_corrente[cpf] = {agencia,num_conta,cpf}
+    else:
+        print("CPF Não cadastrado como usuario, por favor, primeiro cadastre como usuario!")
+
+
+#Listar contas
+def listar_contas(cpf):
+    if cpf in usuarios:
+        print(contas_corrente[cpf])
+    else:
+        print("CPF não cadastrado!")
 
 
 #loop Menu
@@ -196,8 +208,6 @@ def main():
                 data_nascimento = input("data_nascimento: ")
                 cpf = input("cpf: ")
                 endereco = input("endereco: ")
-                login = input("Login")
-                senha = input("senha")
                 cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios,agencia)
            
             #Criar conta corrente
@@ -205,6 +215,11 @@ def main():
                 print("Digite os dados do usuario que deseja criar a C/C: (CPF)")
                 cpf = input("CPF: ")
                 criar_corrente(cpf,agencia)
+            #Listar contas
+            elif escolha.upper() == "L" :
+                print("Digite o CPF que deseja listar as contas)")
+                cpf = input("CPF: ")
+                listar_contas(cpf)
 
             #Sair
             elif escolha.upper() == "Q" :
