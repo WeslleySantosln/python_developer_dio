@@ -1,6 +1,7 @@
 from datetime import datetime
 
 num_conta = 0
+agencia = "AG: 0001"
 saldo = 100
 extrato = []
 num_saque = []
@@ -13,13 +14,29 @@ contas_corrente = {}
 
 # --------- menu ---------- #
 
-menu = """
+menu_1 = """
+    
+    [L] = REALIZAR LOGIN
+    [C] = CADASTRAR USUÁRIO
+
+
+
+
+
+"""
+
+
+
+
+
+
+menu_2 = """
 ------ M E N U ------ 
 
     [S] = SAQUE
     [D] = DEPOSITO
     [E] = EXTRATO
-    [C] = CADASTRAR USUÁRIO
+    [T] = CRIAR CONTA CORRENTE
     [Q] = SAIR
 
 ------ BANCO GT ------
@@ -29,11 +46,13 @@ menu = """
 """
 
 
-#Deposito - Não deixar depositar valores negativos - Constar todos os depositos em extrato
-#Deve receber os argumentos por posição: saldo, valor, extrato 
+#Deposito
+#Não deixar depositar valores negativos
+#Constar todos os depositos em extrato
+#Deve receber os argumentos por posição 
+
 def deposito(valor):
     global saldo,extrato
-
    
     try:
         valor = float(valor)
@@ -60,9 +79,10 @@ def deposito(valor):
             deposito(valor)
               
 
-#saque - só pode no maximo 3 por dia - limite de 500 por saque - usuario com saldo negativo deve ser informado - todos os saques deve ser exibidos em extrato
-#Refator o codigo para a função saque receber os seguintes argumentos POR NOME: saldo, valor, extrato, limite, numero_saques, limite_saques
-#Testar o valor do saque(global)
+#saque
+#só pode no maximo 3 por dia - limite de 500 por saque - usuario com saldo negativo deve ser informado - todos os saques deve ser exibidos em extrato
+#Receber argumentos POR NOME
+
 def saque(valor="none",num_saque="none",extrato="none"):
     global saldo
 
@@ -82,7 +102,8 @@ def saque(valor="none",num_saque="none",extrato="none"):
 
 
 #Extrato - listar todos os depositos e saques da conta - exibir no final o saldo da conta - valores deve ser exibido no seguinte formato(R$ 1.500,00)
-   #Deve receber os argumentos por posição e por nome, Posicional: saldo - Nomeados: extrato  
+#Deve receber os argumentos por posição e por nome, Posicional: saldo - Nomeados: extrato  
+    
 def funcao_extrato(extrato,/,saldo):
     
     for extr in extrato:
@@ -111,29 +132,45 @@ def periodo():
 # O endereço é uma string com o formato: logradouro, nro - bairro - cidade/sigla estado. Deve ser armazenado somente os números do CPF.
 # Não podemos cadastrar 2 usuários com o mesmo CPF.
 
-def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user):
+def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user,agencia):
     global usuarios
     if cpf in user:
         print("Usuario já cadastrado")
     else:
         usuarios[cpf] = {nome,data_nascimento,endereco, cpf}         
         print(f"Usuario: {usuarios[cpf]} Cadastrado com sucesso. ")
-
+        criar_corrente(cpf,agencia)
 
 
 
 #criar função: Criar conta corrente
 
 
-# O programa deve armazenar contas em uma lista, uma conta é composta por: agência, número da conta e usuário. O número da conta é sequencial, iniciando em 1. 
+# uma conta é composta por: agência, número da conta e usuário.
+# O número da conta é sequencial, iniciando em 1. 
 # O número da agência é fixo: 0001.
 # O usuário pode ter mais de uma conta, mas uma conta pertence a somente um usuário.
 # Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número do CPF informado para cada usuário da lista.
 
-def criar_corrente(user,cpf):
+def criar_corrente(cpf,agencia):
     global contas_corrente, num_conta
-    num_conta += 1
-    contas_corrente[cpf] = {num_conta,user,cpf}
+    
+    if cpf in contas_corrente:
+        print("Usuario já possui uma conta")
+        x = input("Deseja cadastar outra conta? [S/N] " )
+        if x.upper() == "S":
+            num_conta += 1
+            contas_corrente[cpf] = {agencia,num_conta,cpf}    
+    else:
+        num_conta += 1
+        contas_corrente[cpf] = {agencia,num_conta,cpf}
+
+
+#CADASTRAR LOGIN
+
+
+
+#REALIZAR LOGIN                
 
 
 
@@ -175,13 +212,23 @@ def main():
             elif escolha.upper() == "E" :
                 funcao_extrato(extrato, saldo=saldo)
                 break
+
+            #CADASTAR USUÁRIO   
             elif escolha.upper() == "C" :
                 print("Digite os dados do usuario: (nome,data_nascimento, cpf, endereco,user)")
                 nome = input("Nome: ")
                 data_nascimento = input("data_nascimento: ")
                 cpf = input("cpf: ")
                 endereco = input("endereco: ")
-                cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios)
+                login = input("Login")
+                senha = input("senha")
+                cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios,agencia)
+                cadastrar_login(login,senha)
+
+            elif escolha.upper() == "T" :
+                print("Digite os dados do usuario que deseja criar a C/C: (CPF)")
+                cpf = input("CPF: ")
+                criar_corrente(cpf,agencia)
 
             
             elif escolha.upper() == "Q" :
