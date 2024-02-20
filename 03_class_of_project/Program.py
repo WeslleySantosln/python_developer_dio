@@ -12,25 +12,7 @@ contas_corrente = {}
 
 
 
-# --------- menu ---------- #
-
-menu_1 = """
-    
-    [L] = REALIZAR LOGIN
-    [C] = CADASTRAR USUÁRIO
-
-
-
-
-
-"""
-
-
-
-
-
-
-menu_2 = """
+menu = """
 ------ M E N U ------ 
 
     [S] = SAQUE
@@ -38,6 +20,7 @@ menu_2 = """
     [E] = EXTRATO
     [T] = CRIAR CONTA CORRENTE
     [Q] = SAIR
+    
 
 ------ BANCO GT ------
 
@@ -166,14 +149,6 @@ def criar_corrente(cpf,agencia):
         contas_corrente[cpf] = {agencia,num_conta,cpf}
 
 
-#CADASTRAR LOGIN
-
-
-
-#REALIZAR LOGIN                
-
-
-
 #loop Menu
 def main():
 
@@ -182,33 +157,34 @@ def main():
         escolha = input(menu)
 
         try:
-            if escolha.upper() == "S" :
 
+            #Sacar
+            if escolha.upper() == "S" :
+         
+                vl_saque = input("Digite um valor para saque (Obs: O valor para saque é no maximo R$ 500,00.): ")
                 while True:
-                    vl_saque = input("Digite um valor para saque (Obs: O valor para saque é no maximo R$ 500,00.): ")
-                    while True:
-                        try:
-                            valor = float(vl_saque)
-                            if valor < 0:
-                                vl_saque = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
-                                if vl_saque.upper() == "S":
-                                    print("Volte sempre!")
-                                    break
-                                continue
-                            saque(valor=valor,num_saque=num_saque,extrato=extrato)
-                            break
-                        except ValueError:
+                    try:
+                        valor = float(vl_saque)
+                        if valor < 0:
                             vl_saque = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
                             if vl_saque.upper() == "S":
                                 print("Volte sempre!")
                                 break
-                    break               
-
+                            continue
+                        saque(valor=valor,num_saque=num_saque,extrato=extrato)
+                        break
+                    except ValueError:
+                        vl_saque = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
+                        if vl_saque.upper() == "S":
+                            print("Volte sempre!")
+                            break
+                                  
+            #Depostiar                    
             elif escolha.upper() == "D" :
                 
                 vl_deposito = input("Digite a quantia que deseja depositar.): ")
                 deposito(vl_deposito)    
-        
+            #Função extrato
             elif escolha.upper() == "E" :
                 funcao_extrato(extrato, saldo=saldo)
                 break
@@ -223,14 +199,14 @@ def main():
                 login = input("Login")
                 senha = input("senha")
                 cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios,agencia)
-                cadastrar_login(login,senha)
-
+           
+            #Criar conta corrente
             elif escolha.upper() == "T" :
                 print("Digite os dados do usuario que deseja criar a C/C: (CPF)")
                 cpf = input("CPF: ")
                 criar_corrente(cpf,agencia)
 
-            
+            #Sair
             elif escolha.upper() == "Q" :
                 break
         except ValueError:
@@ -238,6 +214,8 @@ def main():
             if vl_saque.upper() == "Q":
                 break      
                
+
+
 
 main()
 
