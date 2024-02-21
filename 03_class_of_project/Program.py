@@ -1,15 +1,12 @@
 from datetime import datetime
 
-num_conta = 0
+num_saque = 0
 agencia = "AG: 0001"
 saldo = 100
 extrato = []
-num_saque = []
+num_conta = []
 usuarios = []
 contas_corrente = []
-
-
-
 
 
 menu = """
@@ -66,9 +63,8 @@ def deposito(valor):
 #saque
 #só pode no maximo 3 por dia - limite de 500 por saque - usuario com saldo negativo deve ser informado - todos os saques deve ser exibidos em extrato
 #Receber argumentos POR NOME
-
-def saque(valor="none",num_saque="none",extrato="none"):
-    global saldo
+def saque(valor="none",extrato="none"):
+    global saldo, num_saque
 
     if num_saque == 3:
         return print("Numero de saque excedido")
@@ -80,14 +76,13 @@ def saque(valor="none",num_saque="none",extrato="none"):
         return print("Porfavor coloque um numero posito!")
     else:
         saldo -= valor
-        num_saque=+ 1
+        num_saque += 1
         extrato.append(f"Saque realizado no valor de R$ {valor:.2f}. {periodo()} ")
         return print(f"Saque efetuado no valor de R$ {valor:.2f}. Seu saldo é: R$ {saldo:.2f}")
 
 
 #Extrato - listar todos os depositos e saques da conta - exibir no final o saldo da conta - valores deve ser exibido no seguinte formato(R$ 1.500,00)
-#Deve receber os argumentos por posição e por nome, Posicional: saldo - Nomeados: extrato  
-    
+#Deve receber os argumentos por posição e por nome, Posicional: saldo - Nomeados: extrato    
 def funcao_extrato(extrato,/,saldo):
     
     for extr in extrato:
@@ -96,16 +91,11 @@ def funcao_extrato(extrato,/,saldo):
 
 
 
-#Função para marcar a hora do deposito
-    
+#Função para marcar a hora do deposito    
 def periodo():
     hora_atual = datetime.now()
     data_atual = datetime.now().date()
     return f"Data: {data_atual.day:02d}/{data_atual.month:02d}/{data_atual.year} Horario: {hora_atual.hour:02d}:{hora_atual.minute:02d}."
-
-
-
-
 
 
 
@@ -116,19 +106,24 @@ def periodo():
 # O endereço é uma string com o formato: logradouro, nro - bairro - cidade/sigla estado. Deve ser armazenado somente os números do CPF.
 # Não podemos cadastrar 2 usuários com o mesmo CPF.
 
-def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user,agencia):
+def cadastrar_usuario(nome,data_nascimento, cpf, endereco,agencia):
     global usuarios
-    if cpf in user:
+
+    x = f"CPF: {cpf}"
+    check_cpf = list(filter(lambda sublista: x in sublista, usuarios))
+
+
+    if check_cpf:
         print("Usuario já cadastrado")
     else:
-        user  = [f"{cpf}, Nome: {nome}, Data Nascimento:{data_nascimento}, Endereço:{endereco},{agencia}"]
+        user  = [f"CPF: {cpf}", f"Nome: {nome}", f"Data Nascimento:{data_nascimento}", f"Endereço:{endereco}",agencia]
         usuarios.append(user)         
         print(f"Usuario: {user} Cadastrado com sucesso. ")
         criar_corrente(cpf,agencia)
 
 
 
-#criar função: Criar conta corrente
+
 
 
 # uma conta é composta por: agência, número da conta e usuário.
@@ -140,25 +135,37 @@ def cadastrar_usuario(nome,data_nascimento, cpf, endereco,user,agencia):
 def criar_corrente(cpf,agencia):
     global contas_corrente, num_conta
     
-    if cpf in contas_corrente:
+    i = f"CPF: {cpf}"
+    check_usuario  = list(filter(lambda sublista: i in sublista, usuarios))
+    check_conta_corrente  = list(filter(lambda sublista: i in sublista, contas_corrente))
+
+    
+    if check_conta_corrente:
         print("Usuario já possui uma conta")
         x = input("Deseja cadastar outra conta? [S/N] " )
         if x.upper() == "S":
             num_conta += 1
-            contas_corrente[cpf] = {agencia,num_conta,cpf}    
-    elif cpf in usuarios:
+            contas_corrente.append([agencia,f"Numero da conta: {num_conta}",f"CPF: {cpf}"])  
+    elif check_usuario:
         num_conta += 1
-        contas_corrente[cpf] = {agencia,num_conta,cpf}
+        contas_corrente.append([agencia,f"Numero da conta: {num_conta}",f"CPF: {cpf}"])
     else:
         print("CPF Não cadastrado como usuario, por favor, primeiro cadastre como usuario!")
 
 
 #Listar contas
 def listar_contas(cpf):
-    if cpf in usuarios:
-        print(contas_corrente[cpf])
-    else:
-        print("CPF não cadastrado!")
+
+    x = False  
+    for contas in contas_corrente:
+        if contas[2] == f"CPF: {cpf}":
+            print(contas)
+            x = True
+
+    if x == False:
+        print("CPF não cadastrado!")    
+    
+        
 
 
 #loop Menu
@@ -183,7 +190,7 @@ def main():
                                 print("Volte sempre!")
                                 break
                             continue
-                        saque(valor=valor,num_saque=num_saque,extrato=extrato)
+                        saque(valor=valor,extrato=extrato)
                         break
                     except ValueError:
                         vl_saque = input("Por favor, insira um valor numérico válido ou [S] para sair.")          
@@ -208,7 +215,7 @@ def main():
                 data_nascimento = input("data_nascimento: ")
                 cpf = input("cpf: ")
                 endereco = input("endereco: ")
-                cadastrar_usuario(nome,data_nascimento, cpf,endereco,usuarios,agencia)
+                cadastrar_usuario(nome,data_nascimento, cpf,endereco,agencia)
            
             #Criar conta corrente
             elif escolha.upper() == "T" :
