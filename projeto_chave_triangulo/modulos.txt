@@ -1,0 +1,25 @@
+triangle_key_generator/
+│── main.py               # Ponto de entrada da aplicação
+│── config.py             # Configurações gerais (ex: caminho do banco de dados)
+│── requirements.txt      # Dependências do projeto (se necessário)
+│── app/                  # Pasta principal da aplicação
+│   │── __init__.py       # Permite tratar `app/` como um pacote Python
+│   │── gui.py            # Interface gráfica (Tkinter)
+│   │── key_generator.py  # Geração de chaves
+│   ├── auth/             # Módulo de autenticação
+│   │   │── __init__.py   
+│   │   │── auth.py       # Funções de login e registro
+│   ├── database/         # Módulo de banco de dados
+│   │   │── __init__.py   
+│   │   │── database.py   # Conexão com Postgre e operações CRUD
+│   ├── core/             # Lógica central do sistema
+│   │   │── __init__.py   
+│   │   │── validation.py # Valida os lados do triângulo
+│   │   │── calculations.py # Cálculos matemáticos (fatorial e cubo)
+│   │   │── utils.py      # Funções auxiliares (geração de números aleatórios, data/hora)
+└── tests/                # Testes unitários
+    │── __init__.py
+    │── test_auth.py      # Testes para autenticação
+    │── test_calculations.py # Testes para cálculos matemáticos
+    │── test_database.py  # Testes para banco de dados
+    
