@@ -1,20 +1,25 @@
 # --------- TIPOS DE DADOS ----------- #
 print("# --------- TIPOS DE DADOS ----------- #")
 
-print(11 +20 + 1000)
-print(1.5 + 1 + 0.5)
-print(True)
-print(False)
-print("Python")
+print('\nint:') #int
+print(11 + 20 + 1000) #int
 
-int()
-float()
-bool()
-bool()
-str()
+print('\nfloat:') #float
+print(1.5 + 1 + 0.5) #float
+
+print('\nbool:') #bool
+print(True) #bool
+
+print('\nbool:') #bool
+print(False) #bool
+
+print('\nstr:' ) #str
+print("Python") #str
+
 
 # --------- DIR E HELP ----------- #
 print("# --------- DIR E HELP ----------- #")
+
 import math
 
 #dir(1)
