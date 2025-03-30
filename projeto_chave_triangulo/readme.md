@@ -1,6 +1,3 @@
-
----
-
 # Projeto Chave Triangulo
 
 Esse foi um projeto pessoal 100% pensando e desenvolvido por mim. Este é um aplicativo que combina lógica matemática, geração de chaves únicas, armazenamento no mysql e uma interface gráfica intuitiva, criado como um exercício de programação criativa e funcional.
@@ -65,4 +62,3 @@ Este projeto foi 100% idealizado e desenvolvido por **[Weslley Santos]**, como u
 ## Licença
 Este é um projeto pessoal e não possui licença formal no momento. Todos os direitos são reservados ao autor.
 
----
